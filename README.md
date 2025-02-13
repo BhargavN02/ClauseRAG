@@ -107,4 +107,106 @@ instant-legal-clause-finder/
 
 ### 1. CLI Pipeline:
 
+#### Ingest & Chunk:
+```bash
+python src/ingest.py
+```
+This extracts text from data/ PDF/DOCX files and creates **(all_chunks.pkl)**.
+
+#### Create Embedding Index:
+
+```bash
+python src/create_index.py
+```
+This embeds all chunks, builds a FAISS index **(contracts.index)**, and saves metadata **(metadata.pkl)**.
+
+#### Query via CLI:
+
+```bash
+python src/main.py
+```
+Enter your questions about the contracts (e.g., “What is the termination clause?”).
+Press Ctrl+C or type "exit" to quit.
+
+### 2.Streamlit Web UI:
+
+If you want to upload docs on-the-fly (and build an ephemeral index each time):
+
+```bash
+streamlit run streamlit_app.py
+```
+
+ - You can upload a PDF/DOCX, wait for processing, then ask questions.
+ - The answers are generated using your chosen local LLM.
+
+## How It Works
+
+### Extraction
+- `ingest.py` reads each **PDF or DOCX**, strips whitespace, splits text into ~500-word chunks with 50-word overlap, then pickles them.
+
+### Embedding
+- `create_index.py` uses **sentence-transformers/all-MiniLM-L6-v2** to embed each chunk (gives a vector).
+- We store these vectors in **FAISS (`contracts.index`)** for fast nearest-neighbor lookups.
+
+### Retrieval
+- A user query is embedded similarly.
+- We run a **top-K similarity search** in FAISS.
+- The most relevant chunks are extracted from metadata.
+
+### Generation
+- We feed these **chunks + the user question** to a local **LLM (Falcon, Llama 2, or T5)**.
+- The model returns a final **natural-language answer** that references the retrieved chunks.
+
+### Answer
+- Shown in **console (CLI)** or in the **Streamlit UI**.
+
+---
+
+## Customization
+
+### Local LLM
+- You can replace **`google/flan-t5-base`** with:
+  - `tiiuae/falcon-7b-instruct`
+  - `meta-llama/Llama-2-7b-chat-hf`
+  - Any other Hugging Face model.
+- Adjust the **pipeline parameters** accordingly.
+
+### Embedding Model
+- Default: `all-MiniLM-L6-v2`
+- You can swap it for a **domain-specific model** (e.g., legal-based embeddings like `nlpaueb/legal-bert-base-uncased`) for better results on legal texts.
+
+### Chunk Size & Overlap
+- In `ingest.py`, tweak **`chunk_size`** and **`overlap`** if your documents need **larger/smaller chunks**.
+
+### Vector DB
+- If you have **many documents**, consider a more **scalable vector database**:
+  - **Milvus**
+  - **Chroma**
+  - **Pinecone**
+- The logic remains similar.
+
+### Disclaimers
+> **For real legal usage, ensure your disclaimers are visible:**
+>  
+> _“This system is not a substitute for professional legal advice.”_
+
+---
+
+## Troubleshooting
+
+### Slow or Failing on CPU
+- Large LLMs (**Falcon, Llama 2**) can be **slow on CPU**.
+- Consider a **GPU** or a **smaller model** (e.g., **Flan-T5-Base**).
+
+### `ModuleNotFoundError`
+- Ensure you run commands **from the project root** and your environment is active.
+
+### Out of Memory Errors:
+- If you’re on GPU with limited VRAM, reduce the model size (7B → 3B or smaller).
+- Try half-precision or 8-bit quantization if available.
+
+
+
+
+
 
