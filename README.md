@@ -57,6 +57,7 @@ This system demonstrates how you can build an **end-to-end** RAG pipeline **loca
 
 ## Folder Structure
 
+```bash
 instant-legal-clause-finder/
 ├─ data/
 │   ├─ contract.pdf
@@ -72,7 +73,7 @@ instant-legal-clause-finder/
 ├─ metadata.pkl         # auto-created by create_index.py
 ├─ requirements.txt
 └─ README.md
-
+```
 - **`data/`**: Place your legal PDFs/DOCX files here.  
 - **`src/`**: Core Python scripts for ingestion and retrieval.  
   - `ingest.py`: Extract and chunk docs -> creates `all_chunks.pkl`  
