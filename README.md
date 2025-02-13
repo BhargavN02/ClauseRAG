@@ -185,13 +185,6 @@ streamlit run streamlit_app.py
   - **Pinecone**
 - The logic remains similar.
 
-### Disclaimers
-> **For real legal usage, ensure your disclaimers are visible:**
->  
-> _“This system is not a substitute for professional legal advice.”_
-
----
-
 ## Troubleshooting
 
 ### Slow or Failing on CPU
