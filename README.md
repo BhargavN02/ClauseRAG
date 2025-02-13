@@ -58,10 +58,15 @@ This system demonstrates how you can build an **end-to-end** RAG pipeline **loca
 ## Folder Structure
 
 instant-legal-clause-finder/
+
 ├─ data/
+
 │   ├─ contract.pdf
+
 │   └─ contract.docx
+
 ├─ src/
+
 │   ├─ ingest.py
 │   ├─ create_index.py
 │   ├─ query.py
