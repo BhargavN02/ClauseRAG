@@ -58,15 +58,10 @@ This system demonstrates how you can build an **end-to-end** RAG pipeline **loca
 ## Folder Structure
 
 instant-legal-clause-finder/
-
 ├─ data/
-
 │   ├─ contract.pdf
-
 │   └─ contract.docx
-
 ├─ src/
-
 │   ├─ ingest.py
 │   ├─ create_index.py
 │   ├─ query.py
@@ -95,3 +90,20 @@ instant-legal-clause-finder/
    ```bash
    git clone https://github.com/yourusername/instant-legal-clause-finder.git
    cd instant-legal-clause-finder
+
+2. **Create a virtual environment**:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # Mac/Linux
+   .venv\Scripts\activate.bat # Windows
+
+3. **Install Dependencies**:
+   ```bash
+   pip install --upgrade pip
+   pip install -r requirements.txt
+
+## Usage
+
+### 1. CLI Pipeline:
+
+
