@@ -1,4 +1,4 @@
-# Instant Legal Clause Finder (Local RAG)
+# ClauseRAG (Local RAG)
 
 This repository provides an **Instant Legal Clause Finder** that uses a **Retrieval-Augmented Generation (RAG)** approach with **open-source models**. You can **upload** legal documents (PDF/DOCX), **retrieve** relevant clauses using a local vector store (FAISS), and generate answers with a local large language model (e.g., Falcon, Llama 2, Flan-T5).
 
@@ -57,3 +57,36 @@ This system demonstrates how you can build an **end-to-end** RAG pipeline **loca
 
 ## Folder Structure
 
+instant-legal-clause-finder/
+├─ data/
+│   ├─ contract.pdf
+│   └─ contract.docx
+├─ src/
+│   ├─ ingest.py
+│   ├─ create_index.py
+│   ├─ query.py
+│   └─ main.py
+├─ streamlit_app.py
+├─ all_chunks.pkl       # auto-created by ingest.py
+├─ contracts.index      # auto-created by create_index.py
+├─ metadata.pkl         # auto-created by create_index.py
+├─ requirements.txt
+└─ README.md
+
+- **`data/`**: Place your legal PDFs/DOCX files here.  
+- **`src/`**: Core Python scripts for ingestion and retrieval.  
+  - `ingest.py`: Extract and chunk docs -> creates `all_chunks.pkl`  
+  - `create_index.py`: Embeds chunks, builds FAISS index -> `contracts.index`, `metadata.pkl`  
+  - `query.py`: Retrieval + generation logic  
+  - `main.py`: CLI for queries  
+- **`streamlit_app.py`**: A web UI for file upload + queries.  
+- **`all_chunks.pkl`**, **`contracts.index`**, **`metadata.pkl`**: Generated artifacts.
+
+---
+
+## Installation & Setup
+
+1. **Clone or download** this repository:  
+   ```bash
+   git clone https://github.com/yourusername/instant-legal-clause-finder.git
+   cd instant-legal-clause-finder
